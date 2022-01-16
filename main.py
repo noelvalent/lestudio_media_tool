@@ -36,7 +36,7 @@ def get_img_width_and_height(img_path):
     return width, height
 
 
-def img_processing(img_path):
+def img_processing(index, img_path):
     import os
     from PIL import Image
     global slug
@@ -50,7 +50,7 @@ def img_processing(img_path):
         img = Image.open(img_path)
         img_resize = img.resize((NEW_WIDTH, int(new_h)))
         title, ext = os.path.splitext(img_path)
-        img_resize.save(f'{OUTPUT_PATH}/' + title + f' {slug}' + ext)
+        img_resize.save(f'{OUTPUT_PATH}/' + f'{slug}-{index}' + ext)
     except OSError as e:
         raise e
     else:
@@ -64,9 +64,9 @@ slug = input('what is your slug: ')
 create_output()
 imgs = get_img_files()
 
-for img in imgs:
+for i, img in enumerate(imgs):
     try:
-        img_processing(img)
+        img_processing(i, img)
     except Exception as e:
         print(f'{img} has Except')
         print(e)
